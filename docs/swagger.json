@@ -11,7 +11,7 @@
                     },
                     "url": {
                         "description": "url of the image to be analyzed",
-                        "example": "https://i.ibb.co/YBkwZks/input.jpg",
+                        "example": "https://i.ibb.co/gP6KCM3/input.jpg",
                         "type": "string"
                     }
                 },
@@ -25,17 +25,17 @@
                 "properties": {
                     "label": {
                         "description": "main label name",
-                        "example": "computer",
+                        "example": "purse",
                         "type": "string"
                     },
                     "labels": {
                         "description": "alternative labels",
-                        "example": "['computer', 'computers']",
-                        "type": "string"
+                        "example": ["purse"],
+                        "type": "object"
                     },
                     "score": {
                         "description": "score of the prediction (%)",
-                        "example": "0.95",
+                        "example": "66.91%",
                         "type": "string"
                     }
                 },
