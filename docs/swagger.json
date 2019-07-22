@@ -1,80 +1,110 @@
 {
-  "openapi":"3.0.1",
-  "info":{
-    "description":"LONG_DESCRIPTION_OF_THE_SERVICE",
-    "title":"TITLE_OF_THE_SERVICE",
-    "version":"1.0.0"
-  },
-  "tags":[
-    {
-      "name":"API_RESTPOINT_OPERATION",
-      "description":"LONG_DESCRIPTION_OF_THE_SERVICE"
-    }
-  ],
-  "paths":{
-    "/API_RESTPOINT_OPERATION":{
-      "post":{
-        "security":[
-          {
-            "apikey":[
-
-            ]
-          }
-        ],
-        "tags":[
-          "API_RESTPOINT_OPERATION"
-        ],
-        "summary":"SHORT_DESCRIPTION_OF_THE_SERVICE",
-        "description":"LONG_DESCRIPTION_OF_THE_SERVICE",
-        "operationId":"API_RESTPOINT_OPERATION",
-        "responses":{
-          "401":{
-            "description":"Unauthorized"
-          },
-          "200":{
-            "content":{
-              "application/json":{
-                "schema":{
-                  "type":"array",
-                  "items":{
-                    "$ref":"#/components/schemas/Response"
-                  }
-                }
-              }
+    "components": {
+        "schemas": {
+            "Body": {
+                "properties": {
+                    "top_k": {
+                        "description": "top k most accurate prediction for the analysis",
+                        "example": "5",
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "url": {
+                        "description": "url of the image to be analyzed",
+                        "example": "https://i.ibb.co/YBkwZks/input.jpg",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "url",
+                    "top_k"
+                ],
+                "type": "object"
+            },
+            "Response": {
+                "properties": {
+                    "label": {
+                        "description": "main label name",
+                        "example": "computer",
+                        "type": "string"
+                    },
+                    "labels": {
+                        "description": "alternative labels",
+                        "example": "['computer', 'computers']",
+                        "type": "string"
+                    },
+                    "score": {
+                        "description": "score of the prediction (%)",
+                        "example": "0.95",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             }
-          }
         },
-        "requestBody":{
-          "description":"SHORT_DESCRIPTION_OF_THE_SERVICE",
-          "required":true,
-          "content":{
-            "application/json":{
-              "schema":{
-                "$ref":"#/components/schemas/Body"
-              }
+        "securitySchemes": {
+            "apikey": {
+                "in": "header",
+                "name": "X-OVH-Api-Key",
+                "type": "apiKey"
             }
-          }
         }
-      }
-    }
-  },
-  "components":{
-    "securitySchemes":{
-      "apikey":{
-        "type":"apiKey",
-        "name":"X-OVH-Api-Key",
-        "in":"header"
-      }
     },
-    "schemas":{
-      SCHEMA
-      },
-      "Response":{
-        "type":"object",
-        "properties":{
-          RESPONSE_PROPERTIES
+    "info": {
+        "description": "This API will return the classification of the main object found in the image",
+        "title": "Image Classification (EfficientNet)",
+        "version": "1.0.0"
+    },
+    "openapi": "3.0.1",
+    "paths": {
+        "/detect": {
+            "post": {
+                "description": "This API will return the classification of the main object found in the image",
+                "operationId": "detect",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body"
+                            }
+                        }
+                    },
+                    "description": "Image Classification based on EfficientNet",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Response"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "apikey": []
+                    }
+                ],
+                "summary": "Image Classification based on EfficientNet",
+                "tags": [
+                    "detect"
+                ]
+            }
         }
-      }
-    }
-  }
+    },
+    "tags": [
+        {
+            "description": "This API will return the classification of the main object found in the image",
+            "name": "detect"
+        }
+    ]
 }
