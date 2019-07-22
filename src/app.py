@@ -65,7 +65,7 @@ def detect():
             results.append({
                 'label': labels[0],
                 'labels': labels,
-                'score': '({p:.2f}%)'.format(p=prob*100)
+                'score': '{p:.2f}%'.format(p=prob*100)
                 })
 
         return json.dumps(results), 200
