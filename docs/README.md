@@ -19,5 +19,5 @@ echo "http://$(curl ifconfig.io):5000" && docker run -p 5000:5000 -d EfficientNe
 
 Calling the API
 ```console
-curl -X POST "http://MY_SUPER_API_IP:5000/detect" -H "accept: application/json" -H "Content-Type: application/json" -d '{"url":"https://i.ibb.co/YBkwZks/input.jpg", "top_k": 5}'
+curl -X POST "http://MY_SUPER_API_IP:5000/detect" -H "accept: application/json" -H "Content-Type: application/json" -d '{"url":"https://i.ibb.co/gP6KCM3/input.jpg", "top_k": 5}'
 ```
