@@ -50,17 +50,24 @@ def detect():
     input_path = generate_random_filename(upload_directory,"jpg")
 
     try:
+        
         if 'file' in request.files:
             file = request.files['file']
             if allowed_file(file.filename):
                 file.save(input_path)
-
-            top_k = request.form.getlist('top_k')[0]
+            try:
+                top_k = request.form.getlist('top_k')[0]
+            except:
+                top_k = 5
             
         else:
             url = request.json["url"]
             download(url, input_path)
-            top_k = request.json["top_k"]
+
+            try:
+                top_k = request.json["top_k"]
+            except:
+                top_k = 5
        
         results = []
         
