@@ -40,16 +40,27 @@ except ImportError:
 app = Flask(__name__)
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route("/detect", methods=["POST"])
 def detect():
 
     input_path = generate_random_filename(upload_directory,"jpg")
 
     try:
-        url = request.json["url"]
-        top_k = request.json["top_k"]
+        if 'file' in request.files:
+            file = request.files['file']
+            if allowed_file(file.filename):
+                file.save(input_path)
 
-        download(url, input_path)
+            top_k = request.form.getlist('top_k')[0]
+            
+        else:
+            url = request.json["url"]
+            download(url, input_path)
+            top_k = request.json["top_k"]
        
         results = []
         
@@ -59,7 +70,7 @@ def detect():
         with torch.no_grad():
             outputs = model(img)
 
-        for idx in torch.topk(outputs, k=top_k).indices.squeeze(0).tolist():
+        for idx in torch.topk(outputs, k=int(top_k)).indices.squeeze(0).tolist():
             prob = torch.softmax(outputs, dim=1)[0, idx].item()
             labels = [x.strip() for x in labels_map[idx].split(',')]
             results.append({
@@ -83,6 +94,8 @@ if __name__ == '__main__':
     global upload_directory, model_directory
     global model, labels_map
     global tfms
+    global ALLOWED_EXTENSIONS
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
     upload_directory = '/src/upload/'
     create_directory(upload_directory)
