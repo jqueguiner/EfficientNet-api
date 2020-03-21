@@ -115,7 +115,7 @@ if __name__ == '__main__':
     model.eval()
 
 
-    model_url = "https://storage.gra5.cloud.ovh.net/v1/AUTH_18b62333a540498882ff446ab602528b/pretrained-models/image/EfficientNet-PyTorch/"
+    model_url = "https://storage.gra.cloud.ovh.net/v1/AUTH_18b62333a540498882ff446ab602528b/pretrained-models/image/EfficientNet-PyTorch/"
 
     labels_file = 'labels_map.txt'
 
